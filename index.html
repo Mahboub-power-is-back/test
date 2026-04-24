@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Subdomain Finder Pro | Fast & Light</title>
+    <title>Subdomain Finder Pro | Port Scanner | Mahboub Million</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <style>
         * {
@@ -20,7 +20,7 @@
         }
 
         .container {
-            max-width: 1400px;
+            max-width: 1600px;
             margin: 0 auto;
             padding: 20px;
         }
@@ -113,27 +113,44 @@
             cursor: pointer;
         }
 
+        .port-list {
+            margin-top: 10px;
+            padding: 10px;
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 8px;
+        }
+
+        .port-badge {
+            display: inline-block;
+            background: rgba(0, 212, 255, 0.2);
+            border: 1px solid #00d4ff;
+            border-radius: 15px;
+            padding: 2px 8px;
+            margin: 2px;
+            font-size: 0.7rem;
+        }
+
         .stats {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-            gap: 15px;
+            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+            gap: 12px;
             margin: 20px 0;
         }
 
         .stat-card {
             background: rgba(255, 255, 255, 0.05);
             border-radius: 15px;
-            padding: 15px;
+            padding: 12px;
             text-align: center;
         }
 
         .stat-card i {
-            font-size: 1.8rem;
+            font-size: 1.5rem;
             color: #ff6a00;
         }
 
         .stat-card h3 {
-            font-size: 1.6rem;
+            font-size: 1.4rem;
         }
 
         .results {
@@ -188,15 +205,52 @@
             padding: 10px;
             text-align: left;
             border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            vertical-align: top;
         }
 
         th {
             background: rgba(0, 212, 255, 0.1);
             color: #00d4ff;
+            position: sticky;
+            top: 0;
         }
 
         tr:hover {
             background: rgba(255, 255, 255, 0.03);
+        }
+
+        .port-list-cell {
+            max-width: 200px;
+        }
+
+        .open-port {
+            display: inline-block;
+            background: rgba(0, 255, 100, 0.25);
+            border: 1px solid #00ff64;
+            border-radius: 12px;
+            padding: 3px 8px;
+            margin: 2px;
+            font-size: 0.7rem;
+            font-weight: bold;
+            color: #00ff64;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .open-port:hover {
+            background: #00ff64;
+            color: #000;
+        }
+
+        .closed-port {
+            display: inline-block;
+            background: rgba(255, 50, 50, 0.15);
+            border: 1px solid #ff4444;
+            border-radius: 12px;
+            padding: 3px 8px;
+            margin: 2px;
+            font-size: 0.7rem;
+            color: #ff8888;
         }
 
         .status-badge {
@@ -307,6 +361,12 @@
             transform: translateX(-50%) translateY(0);
         }
 
+        .port-info {
+            font-size: 0.7rem;
+            color: #aaa;
+            margin-top: 5px;
+        }
+
         footer {
             text-align: center;
             padding: 25px;
@@ -316,41 +376,59 @@
         }
 
         @media (max-width: 768px) {
-            th, td { font-size: 0.75rem; padding: 6px; }
+            th, td { font-size: 0.7rem; padding: 6px; }
             .btn { padding: 10px 16px; }
+            .open-port, .closed-port { font-size: 0.6rem; }
         }
     </style>
 </head>
 <body>
     <div class="container">
         <header>
-            <h1><i class="fas fa-bolt"></i> Subdomain Finder Pro</h1>
+            <h1><i class="fas fa-plug"></i> Subdomain Finder Pro | Port Scanner</h1>
             <div class="owner-badge">
                 <i class="fas fa-crown"></i> Created by: Mahboub Million Owner
             </div>
-            <p>Fast subdomain discovery | Optional IP/Status resolution</p>
+            <p>Discover subdomains | Resolve IPs | Scan open ports</p>
         </header>
 
         <div class="search-box">
             <div class="input-group">
                 <input type="text" id="domainInput" placeholder="Enter domain (e.g., example.com)" autocomplete="off">
                 <button class="btn" id="searchBtn" onclick="findSubdomains()">
-                    <i class="fas fa-search"></i> Find Subdomains
+                    <i class="fas fa-search"></i> Start Scan
                 </button>
             </div>
 
             <div class="settings-card">
                 <label>
                     <input type="checkbox" id="resolveIPs" checked>
-                    <i class="fas fa-server"></i> Resolve IPs (faster if OFF)
+                    <i class="fas fa-server"></i> Resolve IPs
                 </label>
                 <label>
-                    <input type="checkbox" id="checkStatus">
-                    <i class="fas fa-heartbeat"></i> Check Status (slow - OFF by default)
+                    <input type="checkbox" id="scanPorts" checked>
+                    <i class="fas fa-plug"></i> Scan Open Ports
                 </label>
                 <span style="color:#ffa500; font-size:0.8rem;">
-                    <i class="fas fa-info-circle"></i> Tip: Disable both for instant results!
+                    <i class="fas fa-info-circle"></i> Port scanning adds ~2-3 sec per host
                 </span>
+            </div>
+
+            <div class="port-list">
+                <span style="font-size:0.8rem;">Common Ports to scan:</span>
+                <span class="port-badge">80 (HTTP)</span>
+                <span class="port-badge">443 (HTTPS)</span>
+                <span class="port-badge">22 (SSH)</span>
+                <span class="port-badge">21 (FTP)</span>
+                <span class="port-badge">25 (SMTP)</span>
+                <span class="port-badge">3306 (MySQL)</span>
+                <span class="port-badge">5432 (PostgreSQL)</span>
+                <span class="port-badge">27017 (MongoDB)</span>
+                <span class="port-badge">6379 (Redis)</span>
+                <span class="port-badge">8080 (HTTP-Alt)</span>
+                <span class="port-badge">8443 (HTTPS-Alt)</span>
+                <span class="port-badge">3389 (RDP)</span>
+                <span class="port-badge">5900 (VNC)</span>
             </div>
 
             <div class="tools-bar" style="display: flex; gap: 10px; flex-wrap: wrap; margin-top: 15px;">
@@ -387,6 +465,11 @@
                     <p>Resolved</p>
                 </div>
                 <div class="stat-card">
+                    <i class="fas fa-plug"></i>
+                    <h3 id="openPortsCount">0</h3>
+                    <p>Open Ports</p>
+                </div>
+                <div class="stat-card">
                     <i class="fas fa-clock"></i>
                     <h3 id="timeCount">0s</h3>
                     <p>Time</p>
@@ -396,7 +479,7 @@
 
         <div class="loading" id="loading">
             <div class="spinner"></div>
-            <p id="loadingText">Fetching subdomains from sources...</p>
+            <p id="loadingText">Fetching subdomains...</p>
         </div>
 
         <div class="error" id="error">
@@ -406,17 +489,23 @@
 
         <div class="results" id="results">
             <div class="results-header">
-                <h2><i class="fas fa-list-ul"></i> Results</h2>
+                <h2><i class="fas fa-list-ul"></i> Results (Subdomain | IP | Open Ports)</h2>
                 <div class="btn-group">
                     <button class="action-btn" onclick="copyAllSubdomains()"><i class="fas fa-copy"></i> Copy All</button>
                     <button class="action-btn export" onclick="exportTXT()"><i class="fas fa-download"></i> TXT</button>
                     <button class="action-btn export" onclick="exportCSV()"><i class="fas fa-table"></i> CSV</button>
                 </div>
             </div>
-            <div style="overflow-x: auto;">
+            <div style="overflow-x: auto; max-height: 500px; overflow-y: auto;">
                 <table id="resultsTable">
                     <thead>
-                        <tr><th>#</th><th>Subdomain</th><th>IP Address</th><th>Status</th><th>Actions</th></tr>
+                        <tr>
+                            <th>#</th>
+                            <th>Subdomain</th>
+                            <th>IP Address</th>
+                            <th>Open Ports</th>
+                            <th>Actions</th>
+                        </tr>
                     </thead>
                     <tbody id="tableBody"></tbody>
                 </table>
@@ -424,7 +513,7 @@
         </div>
 
         <footer>
-            <p><i class="fas fa-shield-alt"></i> Mahboub Million Security Tools | Fast enumeration for security research</p>
+            <p><i class="fas fa-shield-alt"></i> Mahboub Million Security Tools | Ethical use only</p>
         </footer>
     </div>
 
@@ -433,11 +522,25 @@
     <script>
         let currentData = [];
 
-        // Fast subdomain fetching (no IP/status)
+        // Common ports to scan
+        const COMMON_PORTS = [
+            21, 22, 23, 25, 53, 80, 110, 135, 139, 143, 443, 445, 
+            993, 995, 1433, 3306, 3389, 5432, 5900, 6379, 8080, 
+            8443, 27017, 11211, 9200, 5000, 8000, 8888
+        ];
+
+        const PORT_NAMES = {
+            21: 'FTP', 22: 'SSH', 23: 'Telnet', 25: 'SMTP', 53: 'DNS',
+            80: 'HTTP', 110: 'POP3', 139: 'NetBIOS', 143: 'IMAP', 
+            443: 'HTTPS', 445: 'SMB', 993: 'IMAPS', 995: 'POP3S',
+            1433: 'MSSQL', 3306: 'MySQL', 3389: 'RDP', 5432: 'PostgreSQL',
+            5900: 'VNC', 6379: 'Redis', 8080: 'HTTP-Alt', 8443: 'HTTPS-Alt',
+            27017: 'MongoDB', 11211: 'Memcached', 9200: 'Elasticsearch',
+            5000: 'Python/Flask', 8000: 'HTTP-Alt', 8888: 'Jupyter'
+        };
+
         async function fetchSubdomainsFast(domain) {
             const subs = new Set();
-            
-            // Source 1: crt.sh
             try {
                 const res = await fetch(`https://crt.sh/?q=%.${domain}&output=json`);
                 const data = await res.json();
@@ -452,7 +555,6 @@
                 });
             } catch(e) {}
             
-            // Source 2: HackerTarget
             try {
                 const res = await fetch(`https://api.hackertarget.com/hostsearch/?q=${domain}`);
                 const text = await res.text();
@@ -467,7 +569,6 @@
             return Array.from(subs).sort();
         }
 
-        // Fast DNS resolution using Google DNS API (batch not possible, but single is fast)
         async function resolveIPFast(subdomain) {
             try {
                 const res = await fetch(`https://dns.google/resolve?name=${subdomain}&type=A`);
@@ -481,26 +582,100 @@
             }
         }
 
-        // Parallel resolution with limit
-        async function resolveBatch(subdomains, maxConcurrent = 10) {
-            const results = new Array(subdomains.length);
+        async function scanPort(host, port) {
+            return new Promise((resolve) => {
+                const img = new Image();
+                const start = Date.now();
+                let resolved = false;
+                
+                // Use image loading with timeout for port detection (stealth)
+                const timeout = setTimeout(() => {
+                    if (!resolved) resolve(false);
+                }, 2000);
+                
+                img.onload = () => {
+                    if (!resolved) {
+                        resolved = true;
+                        clearTimeout(timeout);
+                        resolve(true);
+                    }
+                };
+                img.onerror = () => {
+                    if (!resolved) {
+                        resolved = true;
+                        clearTimeout(timeout);
+                        resolve(false);
+                    }
+                };
+                
+                // Try to connect via http/https
+                const protocol = (port === 443 || port === 8443) ? 'https' : 'http';
+                img.src = `${protocol}://${host}:${port}/favicon.ico?_=${Date.now()}`;
+                
+                setTimeout(() => {
+                    if (!resolved) {
+                        resolved = true;
+                        resolve(false);
+                    }
+                }, 2000);
+            });
+        }
+
+        async function scanPortsOnHost(host) {
+            const openPorts = [];
+            const portsToScan = COMMON_PORTS;
+            
+            for (const port of portsToScan) {
+                try {
+                    const isOpen = await scanPort(host, port);
+                    if (isOpen) {
+                        openPorts.push(port);
+                    }
+                } catch(e) {
+                    // Port closed or timeout
+                }
+            }
+            return openPorts;
+        }
+
+        async function processHostsParallel(hosts, maxConcurrent = 5) {
+            const results = new Array(hosts.length);
             let completed = 0;
+            const total = hosts.length;
+            const scanPorts = document.getElementById('scanPorts').checked;
             
             async function process(i) {
-                results[i] = await resolveIPFast(subdomains[i]);
+                const host = hosts[i];
+                let ports = [];
+                let ip = '-';
+                
+                if (document.getElementById('resolveIPs').checked) {
+                    ip = await resolveIPFast(host);
+                }
+                
+                if (scanPorts && ip !== '-' && ip !== 'Error') {
+                    ports = await scanPortsOnHost(host);
+                }
+                
+                results[i] = { ip, ports };
                 completed++;
-                const percent = (completed / subdomains.length) * 100;
+                const percent = (completed / total) * 100;
                 document.getElementById('progressFill').style.width = `${percent}%`;
                 document.getElementById('ipCount').innerText = completed;
+                
+                let openCount = 0;
+                for (let j = 0; j <= i; j++) {
+                    if (results[j] && results[j].ports) openCount += results[j].ports.length;
+                }
+                document.getElementById('openPortsCount').innerText = openCount;
             }
             
-            const batches = [];
-            for (let i = 0; i < subdomains.length; i += maxConcurrent) {
-                batches.push(subdomains.slice(i, i + maxConcurrent));
-            }
-            
-            for (const batch of batches) {
-                await Promise.all(batch.map((_, idx) => process(subdomains.indexOf(batch[idx]))));
+            for (let i = 0; i < hosts.length; i += maxConcurrent) {
+                const batch = [];
+                for (let j = i; j < Math.min(i + maxConcurrent, hosts.length); j++) {
+                    batch.push(process(j));
+                }
+                await Promise.all(batch);
             }
             
             return results;
@@ -513,87 +688,50 @@
                 return;
             }
 
-            const resolveIPs = document.getElementById('resolveIPs').checked;
-            const checkStatus = document.getElementById('checkStatus').checked;
-            
             document.getElementById('loading').classList.add('active');
             document.getElementById('results').classList.remove('active');
             document.getElementById('error').classList.remove('active');
             document.getElementById('stats').style.display = 'none';
             document.getElementById('progressBar').classList.add('active');
             document.getElementById('searchBtn').disabled = true;
-            document.getElementById('loadingText').innerHTML = '<i class="fas fa-search"></i> Fetching subdomains from sources...';
             
             const startTime = Date.now();
             
             try {
-                // Step 1: Get subdomains (fast)
+                document.getElementById('loadingText').innerHTML = '<i class="fas fa-search"></i> Fetching subdomains...';
                 let subdomains = await fetchSubdomainsFast(domain);
                 
                 if (subdomains.length === 0) {
-                    showError('No subdomains found. Try another domain.');
+                    showError('No subdomains found.');
                     document.getElementById('loading').classList.remove('active');
                     document.getElementById('progressBar').classList.remove('active');
                     document.getElementById('searchBtn').disabled = false;
                     return;
                 }
                 
-                // Limit to 100 for performance
-                if (subdomains.length > 100) {
-                    subdomains = subdomains.slice(0, 100);
-                    showToast(`Found ${subdomains.length}+ subdomains (showing first 100)`);
+                // Limit to 50 for performance with port scanning
+                const maxHosts = 50;
+                if (subdomains.length > maxHosts) {
+                    subdomains = subdomains.slice(0, maxHosts);
+                    showToast(`Found ${subdomains.length}+ subdomains (scanning first ${maxHosts})`);
                 }
                 
-                document.getElementById('loadingText').innerHTML = `<i class="fas fa-microchip"></i> Processing ${subdomains.length} subdomains...`;
                 document.getElementById('totalCount').innerText = subdomains.length;
+                document.getElementById('loadingText').innerHTML = `<i class="fas fa-microchip"></i> Processing ${subdomains.length} hosts...`;
                 
-                let ips = new Array(subdomains.length).fill('-');
-                let statuses = new Array(subdomains.length).fill('Skipped');
-                let resolvedCount = 0;
-                let aliveCount = 0;
-                
-                // Step 2: Resolve IPs if enabled
-                if (resolveIPs) {
-                    document.getElementById('loadingText').innerHTML = `<i class="fas fa-globe"></i> Resolving ${subdomains.length} IPs...`;
-                    ips = await resolveBatch(subdomains, 15);
-                    resolvedCount = ips.filter(ip => ip !== '-' && ip !== 'Error').length;
-                    document.getElementById('ipCount').innerText = resolvedCount;
-                } else {
-                    document.getElementById('ipCount').innerText = 'Disabled';
-                }
-                
-                // Step 3: Check status if enabled (optional, very slow)
-                if (checkStatus) {
-                    document.getElementById('loadingText').innerHTML = `<i class="fas fa-heartbeat"></i> Checking status (this may take a while)...`;
-                    // Only check first 50 for status to save time
-                    const toCheck = Math.min(subdomains.length, 50);
-                    for (let i = 0; i < toCheck; i++) {
-                        try {
-                            const controller = new AbortController();
-                            const timeout = setTimeout(() => controller.abort(), 3000);
-                            await fetch(`https://${subdomains[i]}`, { method: 'HEAD', mode: 'no-cors', signal: controller.signal });
-                            clearTimeout(timeout);
-                            statuses[i] = 'Alive';
-                            aliveCount++;
-                        } catch(e) {
-                            statuses[i] = 'Down';
-                        }
-                        document.getElementById('progressFill').style.width = `${((i+1) / toCheck) * 100}%`;
-                        document.getElementById('aliveCount').innerText = aliveCount;
-                    }
-                    for (let i = toCheck; i < subdomains.length; i++) {
-                        statuses[i] = 'Not checked';
-                    }
-                } else {
-                    document.getElementById('aliveCount').innerText = 'Disabled';
-                }
+                const results = await processHostsParallel(subdomains, 5);
                 
                 // Build data
-                currentData = subdomains.map((sub, idx) => ({
-                    subdomain: sub,
-                    ip: ips[idx],
-                    status: statuses[idx]
+                currentData = subdomains.map((host, idx) => ({
+                    subdomain: host,
+                    ip: results[idx].ip,
+                    ports: results[idx].ports,
+                    status: results[idx].ports.length > 0 ? 'Active' : 'Has ports'
                 }));
+                
+                const totalOpenPorts = currentData.reduce((sum, item) => sum + item.ports.length, 0);
+                document.getElementById('openPortsCount').innerText = totalOpenPorts;
+                document.getElementById('aliveCount').innerText = currentData.filter(d => d.ports.length > 0).length;
                 
                 const duration = ((Date.now() - startTime) / 1000).toFixed(1);
                 document.getElementById('timeCount').innerText = duration + 's';
@@ -621,11 +759,20 @@
                 row.insertCell(1).innerHTML = `<strong>${item.subdomain}</strong>`;
                 row.insertCell(2).innerText = item.ip;
                 
-                let statusClass = 'status-skipped';
-                if (item.status === 'Alive') statusClass = 'status-up';
-                else if (item.status === 'Down') statusClass = 'status-down';
-                row.insertCell(3).innerHTML = `<span class="status-badge ${statusClass}">${item.status}</span>`;
+                // Ports cell
+                const portsCell = row.insertCell(3);
+                if (item.ports.length === 0) {
+                    portsCell.innerHTML = '<span style="color:#666;">No open ports found</span>';
+                } else {
+                    let portsHtml = '';
+                    item.ports.forEach(port => {
+                        const service = PORT_NAMES[port] || 'Unknown';
+                        portsHtml += `<span class="open-port" onclick="copyToClipboard('${port}')" title="${service} - Click to copy port">${port} (${service})</span>`;
+                    });
+                    portsCell.innerHTML = portsHtml + `<div class="port-info"><i class="fas fa-info-circle"></i> Click on port to copy</div>`;
+                }
                 
+                // Actions
                 row.insertCell(4).innerHTML = `
                     <div class="action-icons">
                         <i class="fas fa-copy" title="Copy hostname" onclick="copyToClipboard('${item.subdomain}')"></i>
@@ -666,24 +813,28 @@
 
         function exportTXT() {
             if (currentData.length === 0) return;
-            let content = `# Subdomain Finder Results - Mahboub Million\n`;
+            let content = `# Subdomain Port Scanner Results - Mahboub Million\n`;
             content += `# Date: ${new Date().toLocaleString()}\n`;
             content += `# Total: ${currentData.length}\n\n`;
-            content += "SUBDOMAIN | IP | STATUS\n";
-            content += "=".repeat(50) + "\n";
+            content += "=".repeat(70) + "\n";
+            content += "SUBDOMAIN | IP | OPEN PORTS\n";
+            content += "=".repeat(70) + "\n";
             currentData.forEach(item => {
-                content += `${item.subdomain} | ${item.ip || '-'} | ${item.status}\n`;
+                const portsStr = item.ports.length ? item.ports.join(',') : 'none';
+                content += `${item.subdomain} | ${item.ip} | ${portsStr}\n`;
             });
-            downloadFile(content, `subdomains_${Date.now()}.txt`, 'text/plain');
+            downloadFile(content, `port_scan_${Date.now()}.txt`, 'text/plain');
         }
 
         function exportCSV() {
             if (currentData.length === 0) return;
-            let csv = "Subdomain,IP Address,Status\n";
+            let csv = "Subdomain,IP Address,Open Ports,Port Services\n";
             currentData.forEach(item => {
-                csv += `"${item.subdomain}","${item.ip || '-'}","${item.status}"\n`;
+                const portsStr = item.ports.join(';');
+                const servicesStr = item.ports.map(p => PORT_NAMES[p] || 'Unknown').join(';');
+                csv += `"${item.subdomain}","${item.ip}","${portsStr}","${servicesStr}"\n`;
             });
-            downloadFile(csv, `subdomains_${Date.now()}.csv`, 'text/csv');
+            downloadFile(csv, `port_scan_${Date.now()}.csv`, 'text/csv');
         }
 
         function downloadFile(content, filename, mimeType) {
@@ -701,12 +852,12 @@
 
         function copyToClipboard(text) {
             navigator.clipboard.writeText(text);
-            showToast(`Copied: ${text.substring(0, 40)}`);
+            showToast(`Copied: ${text}`);
         }
 
         function showToast(msg) {
             const toast = document.getElementById('toast');
-            toast.innerText = msg;
+            toast.innerText = msg.substring(0, 80);
             toast.classList.add('show');
             setTimeout(() => toast.classList.remove('show'), 2000);
         }
@@ -726,4 +877,4 @@
         });
     </script>
 </body>
-</html>
+    </html>
