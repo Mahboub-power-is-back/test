@@ -1,889 +1,195 @@
 <!DOCTYPE html>
-<html lang="en" dir="ltr">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Subdomain Finder Pro | Unlimited Hosts | Mahboub Million</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>SubfinderX | Mahboub Million</title>
+    <link rel="manifest" href="data:application/manifest+json,{
+        \"name\":\"SubfinderX\",
+        \"short_name\":\"SubfinderX\",
+        \"description\":\"Professional subdomain discovery & port scanner\",
+        \"start_url\":\".\",
+        \"display\":\"standalone\",
+        \"theme_color\":\"#0a0c15\",
+        \"background_color\":\"#0a0c15\",
+        \"icons\":[{
+            \"src\":\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' fill='%230a0c15'/%3E%3Ccircle cx='50' cy='50' r='40' fill='none' stroke='%2300d4ff' stroke-width='4'/%3E%3Cpath d='M35 50 L65 50 M50 35 L50 65' stroke='%23ff6a00' stroke-width='4'/%3E%3C/svg%3E\",
+            \"sizes\":\"any\",
+            \"type\":\"image/svg+xml\"
+        }]
+    }">
+    <link rel="apple-touch-icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' fill='%230a0c15'/%3E%3Ccircle cx='50' cy='50' r='40' fill='none' stroke='%2300d4ff' stroke-width='4'/%3E%3C/svg%3E">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
-            min-height: 100vh;
-            color: #fff;
-        }
-
-        .container {
-            max-width: 1600px;
-            margin: 0 auto;
-            padding: 20px;
-        }
-
-        .logo-container {
-            display: flex;
-            justify-content: center;
-            margin-bottom: 20px;
-        }
-
-        .logo {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            background: linear-gradient(135deg, rgba(0, 212, 255, 0.15), rgba(255, 106, 0, 0.1));
-            padding: 15px 30px;
-            border-radius: 80px;
-            border: 1px solid rgba(0, 212, 255, 0.3);
-            backdrop-filter: blur(10px);
-            animation: glow 3s ease-in-out infinite;
-        }
-
-        @keyframes glow {
-            0%, 100% { box-shadow: 0 0 5px rgba(0, 212, 255, 0.3); }
-            50% { box-shadow: 0 0 20px rgba(0, 212, 255, 0.6); }
-        }
-
-        .logo-icon {
-            position: relative;
-            width: 60px;
-            height: 60px;
-        }
-
-        .logo-icon .fa-shield-halbed {
-            position: absolute;
-            font-size: 50px;
-            color: #00d4ff;
-            top: 0;
-            left: 0;
-        }
-
-        .logo-icon .fa-network-wired {
-            position: absolute;
-            font-size: 25px;
-            color: #ff6a00;
-            top: 12px;
-            left: 12px;
-        }
-
-        .logo-text h2 {
-            font-size: 1.8rem;
-            background: linear-gradient(90deg, #00d4ff, #ff6a00);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-
-        .logo-text p {
-            font-size: 0.7rem;
-            color: #aaa;
-        }
-
-        .owner-badge {
-            display: inline-block;
-            background: rgba(255, 106, 0, 0.2);
-            border: 1px solid #ff6a00;
-            border-radius: 50px;
-            padding: 5px 20px;
-            font-size: 0.9rem;
-        }
-
-        .search-box {
-            background: rgba(255, 255, 255, 0.05);
-            backdrop-filter: blur(10px);
-            border-radius: 20px;
-            padding: 25px;
-            margin: 20px 0;
-        }
-
-        .input-group {
-            display: flex;
-            gap: 15px;
-            margin-bottom: 20px;
-            flex-wrap: wrap;
-        }
-
-        .input-group input {
-            flex: 1;
-            padding: 14px 20px;
-            border: 2px solid rgba(255, 255, 255, 0.1);
-            border-radius: 12px;
-            background: rgba(255, 255, 255, 0.05);
-            color: #fff;
-            font-size: 1rem;
-        }
-
-        .input-group input:focus {
-            outline: none;
-            border-color: #00d4ff;
-        }
-
-        .btn {
-            padding: 14px 28px;
-            border: none;
-            border-radius: 12px;
-            background: linear-gradient(135deg, #00d4ff, #ff6a00);
-            color: #fff;
-            font-weight: bold;
-            cursor: pointer;
-            transition: 0.3s;
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 20px rgba(0, 212, 255, 0.4);
-        }
-
-        .btn-secondary {
-            background: linear-gradient(135deg, #2c3e50, #3498db);
-        }
-
-        .settings-card {
-            background: rgba(0, 0, 0, 0.3);
-            border-radius: 12px;
-            padding: 15px;
-            margin: 15px 0;
-            display: flex;
-            gap: 25px;
-            flex-wrap: wrap;
-            align-items: center;
-        }
-
-        .settings-card label {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            cursor: pointer;
-        }
-
-        .source-badge {
-            display: inline-block;
-            background: rgba(0, 212, 255, 0.15);
-            border-radius: 12px;
-            padding: 3px 10px;
-            margin: 2px;
-            font-size: 0.65rem;
-            font-family: monospace;
-        }
-
-        .warning-badge {
-            background: rgba(255, 106, 0, 0.3);
-            color: #ffa500;
-            padding: 5px 12px;
-            border-radius: 20px;
-            font-size: 0.75rem;
-        }
-
-        .stats {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
-            gap: 12px;
-            margin: 20px 0;
-        }
-
-        .stat-card {
-            background: rgba(255, 255, 255, 0.05);
-            border-radius: 15px;
-            padding: 12px;
-            text-align: center;
-        }
-
-        .stat-card i {
-            font-size: 1.5rem;
-            color: #ff6a00;
-        }
-
-        .stat-card h3 {
-            font-size: 1.4rem;
-        }
-
-        .results {
-            background: rgba(255, 255, 255, 0.05);
-            border-radius: 20px;
-            padding: 20px;
-            margin: 20px 0;
-            display: none;
-        }
-
-        .results.active {
-            display: block;
-            animation: fadeIn 0.5s ease;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        .results-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 15px;
-            margin-bottom: 20px;
-            padding-bottom: 15px;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-        }
-
-        .btn-group {
-            display: flex;
-            gap: 10px;
-            flex-wrap: wrap;
-        }
-
-        .action-btn {
-            padding: 8px 15px;
-            border-radius: 8px;
-            font-size: 0.85rem;
-            cursor: pointer;
-            border: none;
-            background: #2c3e50;
-            color: #fff;
-        }
-
-        .action-btn.export {
-            background: #27ae60;
-        }
-
-        table {
-            width: 100%;
-            border-collapse: collapse;
-        }
-
-        th, td {
-            padding: 10px;
-            text-align: left;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-        }
-
-        th {
-            background: rgba(0, 212, 255, 0.1);
-            color: #00d4ff;
-            position: sticky;
-            top: 0;
-        }
-
-        tr:hover {
-            background: rgba(255, 255, 255, 0.03);
-        }
-
-        .open-port {
-            display: inline-block;
-            background: rgba(0, 255, 100, 0.2);
-            border: 1px solid #00ff64;
-            border-radius: 12px;
-            padding: 3px 8px;
-            margin: 2px;
-            font-size: 0.7rem;
-            cursor: pointer;
-        }
-
-        .open-port:hover {
-            background: #00ff64;
-            color: #000;
-        }
-
-        .action-icons i {
-            margin: 0 5px;
-            cursor: pointer;
-        }
-
-        .loading {
-            text-align: center;
-            padding: 40px;
-            display: none;
-        }
-
-        .loading.active {
-            display: block;
-        }
-
-        .spinner {
-            width: 50px;
-            height: 50px;
-            border: 4px solid rgba(255, 255, 255, 0.1);
-            border-top-color: #ff6a00;
-            border-right-color: #00d4ff;
-            border-radius: 50%;
-            animation: spin 0.8s linear infinite;
-            margin: 0 auto 20px;
-        }
-
-        @keyframes spin {
-            to { transform: rotate(360deg); }
-        }
-
-        .progress-bar {
-            width: 100%;
-            height: 4px;
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 2px;
-            margin: 15px 0;
-            overflow: hidden;
-            display: none;
-        }
-
-        .progress-bar.active {
-            display: block;
-        }
-
-        .progress-fill {
-            height: 100%;
-            background: linear-gradient(90deg, #00d4ff, #ff6a00);
-            width: 0%;
-            transition: width 0.3s;
-        }
-
-        .error {
-            background: rgba(255, 0, 0, 0.1);
-            border: 1px solid rgba(255, 0, 0, 0.3);
-            padding: 15px;
-            border-radius: 12px;
-            margin: 15px 0;
-            display: none;
-        }
-
-        .error.active {
-            display: block;
-        }
-
-        .toast {
-            position: fixed;
-            bottom: 30px;
-            left: 50%;
-            transform: translateX(-50%) translateY(100px);
-            background: linear-gradient(135deg, #00d4ff, #ff6a00);
-            padding: 10px 20px;
-            border-radius: 50px;
-            opacity: 0;
-            transition: 0.3s;
-            z-index: 1000;
-        }
-
-        .toast.show {
-            opacity: 1;
-            transform: translateX(-50%) translateY(0);
-        }
-
-        footer {
-            text-align: center;
-            padding: 25px;
-            color: #666;
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
-            margin-top: 30px;
-        }
-
-        @media (max-width: 768px) {
-            th, td { font-size: 0.7rem; padding: 6px; }
-            .btn { padding: 10px 16px; }
-            .logo { padding: 10px 20px; }
-            .logo-text h2 { font-size: 1.2rem; }
-        }
+        *{margin:0;padding:0;box-sizing:border-box}
+        body{font-family:'Inter',sans-serif;background:#0a0c15;color:#fff;overflow-x:hidden}
+        .splash{position:fixed;top:0;left:0;width:100%;height:100%;background:linear-gradient(145deg,#060914,#0a0f1e);display:flex;flex-direction:column;justify-content:center;align-items:center;z-index:9999;transition:opacity 0.5s}
+        .splash.hide{opacity:0;pointer-events:none}
+        .splash-logo{width:80px;height:80px;background:linear-gradient(135deg,#00d4ff20,#ff6a0020);border-radius:28px;display:flex;align-items:center;justify-content:center;margin-bottom:1.5rem;animation:pulse 1.2s infinite}
+        .splash-logo i{font-size:3rem;background:linear-gradient(135deg,#00d4ff,#ffaa44);-webkit-background-clip:text;background-clip:text;color:transparent}
+        @keyframes pulse{0%{transform:scale(1)}70%{transform:scale(1.05)}100%{transform:scale(1)}}
+        .splash h2{background:linear-gradient(125deg,#fff,#7dd3fc);-webkit-background-clip:text;background-clip:text;color:transparent}
+        .container{max-width:1400px;margin:0 auto;padding:1rem}
+        .header{background:rgba(15,23,42,0.6);backdrop-filter:blur(14px);border-radius:2rem;padding:1rem 2rem;margin-bottom:2rem;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1rem}
+        .brand{display:flex;align-items:center;gap:0.8rem}
+        .brand i{font-size:2rem;color:#00d4ff}
+        .brand h1{font-size:1.5rem;background:linear-gradient(115deg,#fff,#7dd3fc);-webkit-background-clip:text;background-clip:text;color:transparent}
+        .owner-badge{background:#ff6a001a;border:1px solid #ff6a00;border-radius:2rem;padding:0.3rem 1.2rem;font-size:0.8rem}
+        .telegram-btn{background:#1e293b;border-radius:2rem;padding:0.45rem 1.3rem;color:#94a3f8;text-decoration:none;display:inline-flex;align-items:center;gap:0.5rem;border:1px solid #2d3a5e}
+        .card{background:rgba(12,18,34,0.7);backdrop-filter:blur(18px);border-radius:2rem;padding:2rem;border:1px solid rgba(0,212,255,0.2)}
+        .input-group{display:flex;gap:1rem;flex-wrap:wrap;margin-bottom:1.5rem}
+        .domain-input{flex:2;background:#0f172f;border:1px solid #2d3a60;border-radius:3rem;padding:0.9rem 1.5rem;color:#fff;font-size:1rem}
+        .btn-scan{background:linear-gradient(105deg,#0f2b4f,#0f172a);border:1px solid #00d4ff;border-radius:3rem;padding:0 2rem;font-weight:600;color:#b9e6ff;cursor:pointer}
+        .toggle-group{display:flex;gap:1rem;margin-bottom:1.5rem;flex-wrap:wrap}
+        .toggle-item{background:#0e162b;border-radius:2rem;padding:0.4rem 1rem;border:1px solid #293456}
+        .tools-bar{display:flex;gap:0.8rem;flex-wrap:wrap;margin:1rem 0;padding-top:1rem;border-top:1px solid #1e2a4a}
+        .tool-btn{background:#111827;border:1px solid #2a3a60;border-radius:2rem;padding:0.45rem 1.2rem;font-size:0.8rem;color:#b9c8ff;cursor:pointer}
+        .progress-bar{height:3px;background:#19233c;border-radius:4px;margin:1rem 0;display:none}
+        .progress-fill{width:0%;height:100%;background:linear-gradient(90deg,#00d4ff,#ff9a44);border-radius:4px}
+        .stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:1rem;margin:1.5rem 0}
+        .stat-tile{background:#0a1022aa;border-radius:1.5rem;padding:1rem;text-align:center;border:1px solid #2d3a5a}
+        .stat-tile i{font-size:1.6rem;color:#ffaa55}
+        .stat-number{font-size:1.6rem;font-weight:700;background:linear-gradient(135deg,#f0f9ff,#7dd3fc);-webkit-background-clip:text;background-clip:text;color:transparent}
+        .results-card{margin-top:2rem;background:rgba(5,10,22,0.7);backdrop-filter:blur(12px);border-radius:1.8rem;padding:1.5rem;display:none}
+        .results-card.active{display:block}
+        .table-wrap{overflow-x:auto;max-height:450px;overflow-y:auto}
+        table{width:100%;border-collapse:collapse}
+        th{text-align:left;padding:1rem;background:#0e1a2f;color:#7bc5ff;position:sticky;top:0}
+        td{padding:0.8rem;border-bottom:1px solid #1f2a46}
+        .hostname{color:#84d6ff;font-family:monospace}
+        .port-chip{background:#00ff8820;border:1px solid #1eff9e;border-radius:20px;padding:0.2rem 0.7rem;font-size:0.7rem;display:inline-block;margin:0.2rem;cursor:pointer}
+        .action-icons i{margin:0 5px;cursor:pointer;color:#6f8fcc}
+        .loading{text-align:center;padding:2rem;display:none}
+        .loading.active{display:block}
+        .spinner{width:48px;height:48px;border:3px solid #2a3a70;border-top:3px solid #00d4ff;border-radius:50%;animation:spin 0.8s linear infinite;margin:0 auto 1rem}
+        @keyframes spin{to{transform:rotate(360deg)}}
+        .error{background:#ff336620;border-left:4px solid #ff6670;padding:0.8rem;border-radius:1rem;margin:1rem 0;display:none}
+        .toast{position:fixed;bottom:30px;left:50%;transform:translateX(-50%);background:#1f2c48e6;backdrop-filter:blur(12px);padding:0.5rem 1.5rem;border-radius:3rem;border:1px solid #00d4ff;font-size:0.8rem;opacity:0;transition:0.2s;z-index:1000}
+        footer{text-align:center;margin-top:2rem;font-size:0.7rem;color:#4c6190}
+        @media (max-width:700px){.brand h1{font-size:1.2rem}.stat-number{font-size:1.3rem}}
     </style>
 </head>
 <body>
-    <div class="container">
-        <div class="logo-container">
-            <div class="logo">
-                <div class="logo-icon">
-                    <i class="fas fa-shield-halbed"></i>
-                    <i class="fas fa-network-wired"></i>
-                </div>
-                <div class="logo-text">
-                    <h2>Subdomain Finder Pro</h2>
-                    <p>UNLIMITED HOSTS • MULTI-SOURCE • OSINT</p>
-                </div>
-            </div>
+<div class="splash" id="splash">
+    <div class="splash-logo"><i class="fas fa-shield-halbed"></i></div>
+    <h2>SubfinderX</h2>
+    <p>Mahboub Million · OSINT Tool</p>
+</div>
+
+<div class="container">
+    <div class="header">
+        <div class="brand"><i class="fas fa-bolt"></i><h1>SubfinderX</h1></div>
+        <div style="display:flex;gap:0.8rem">
+            <div class="owner-badge"><i class="fas fa-crown"></i> MAHBOUB MILLION</div>
+            <a href="https://t.me/VPSPLUSMODE" class="telegram-btn"><i class="fab fa-telegram"></i> Channel</a>
         </div>
-
-        <div style="text-align: center;">
-            <div class="owner-badge">
-                <i class="fas fa-crown"></i> Created by: Mahboub Million Owner
-            </div>
-            <p style="margin-top: 12px; color: #aaa;">8+ OSINT Sources | Unlimited Results | No Host Limit</p>
-            <span class="warning-badge"><i class="fas fa-info-circle"></i> No maximum limit - gets ALL discovered subdomains</span>
-        </div>
-
-        <div class="search-box">
-            <div class="input-group">
-                <input type="text" id="domainInput" placeholder="Enter domain (e.g., example.com, github.com)" autocomplete="off">
-                <button class="btn" id="searchBtn" onclick="findSubdomains()">
-                    <i class="fas fa-rocket"></i> Deep Scan (Unlimited)
-                </button>
-            </div>
-
-            <div class="settings-card">
-                <label>
-                    <input type="checkbox" id="resolveIPs" checked>
-                    <i class="fas fa-server"></i> Resolve IPs
-                </label>
-                <label>
-                    <input type="checkbox" id="scanPorts">
-                    <i class="fas fa-plug"></i> Scan Ports (Slow)
-                </label>
-                <div style="margin-left: auto;">
-                    <span class="source-badge"><i class="fas fa-database"></i> crt.sh</span>
-                    <span class="source-badge"><i class="fas fa-database"></i> AlienVault OTX</span>
-                    <span class="source-badge"><i class="fas fa-database"></i> DNSDumpster</span>
-                    <span class="source-badge"><i class="fas fa-database"></i> HackerTarget</span>
-                    <span class="source-badge"><i class="fas fa-database"></i> BufferOver</span>
-                    <span class="source-badge"><i class="fas fa-database"></i> CertSpotter</span>
-                    <span class="source-badge"><i class="fas fa-database"></i> RapidDNS</span>
-                    <span class="source-badge"><i class="fas fa-database"></i> AnubisDB</span>
-                </div>
-            </div>
-
-            <div class="progress-bar" id="progressBar">
-                <div class="progress-fill" id="progressFill"></div>
-            </div>
-
-            <div class="stats" id="stats" style="display: none;">
-                <div class="stat-card">
-                    <i class="fas fa-globe"></i>
-                    <h3 id="totalCount">0</h3>
-                    <p>Subdomains Found</p>
-                </div>
-                <div class="stat-card">
-                    <i class="fas fa-check-circle"></i>
-                    <h3 id="aliveCount">0</h3>
-                    <p>With Open Ports</p>
-                </div>
-                <div class="stat-card">
-                    <i class="fas fa-server"></i>
-                    <h3 id="ipCount">0</h3>
-                    <p>IPs Resolved</p>
-                </div>
-                <div class="stat-card">
-                    <i class="fas fa-plug"></i>
-                    <h3 id="openPortsCount">0</h3>
-                    <p>Open Ports Total</p>
-                </div>
-                <div class="stat-card">
-                    <i class="fas fa-clock"></i>
-                    <h3 id="timeCount">0s</h3>
-                    <p>Scan Time</p>
-                </div>
-            </div>
-        </div>
-
-        <div class="loading" id="loading">
-            <div class="spinner"></div>
-            <p id="loadingText">Fetching subdomains from 8+ sources (no limit)...</p>
-            <p style="font-size:0.8rem; color:#ffa500; margin-top:10px;"><i class="fas fa-hourglass-half"></i> Getting ALL discovered subdomains</p>
-        </div>
-
-        <div class="error" id="error">
-            <i class="fas fa-exclamation-triangle"></i>
-            <span id="errorText"></span>
-        </div>
-
-        <div class="results" id="results">
-            <div class="results-header">
-                <h2><i class="fas fa-list-ul"></i> Discovered Hosts <span id="resultCountSpan" style="color:#ff6a00;"></span></h2>
-                <div class="btn-group">
-                    <button class="action-btn" onclick="copyAllSubdomains()"><i class="fas fa-copy"></i> Copy All</button>
-                    <button class="action-btn export" onclick="exportTXT()"><i class="fas fa-download"></i> TXT</button>
-                    <button class="action-btn export" onclick="exportCSV()"><i class="fas fa-table"></i> CSV</button>
-                </div>
-            </div>
-            <div style="overflow-x: auto; max-height: 550px; overflow-y: auto;">
-                <table id="resultsTable">
-                    <thead>
-                        <tr><th>#</th><th>Subdomain</th><th>IP Address</th><th>Open Ports</th><th>Actions</th></tr>
-                    </thead>
-                    <tbody id="tableBody"></tbody>
-                </table>
-            </div>
-        </div>
-
-        <footer>
-            <p><i class="fas fa-shield-alt"></i> Mahboub Million Security Tools | Unlimited OSINT Enumeration</p>
-        </footer>
     </div>
 
-    <div class="toast" id="toast">Copied!</div>
+    <div class="card">
+        <div class="input-group">
+            <input type="text" id="domainInput" class="domain-input" placeholder="example.com">
+            <button class="btn-scan" onclick="findSubdomains()"><i class="fas fa-search"></i> Scan</button>
+        </div>
+        <div class="toggle-group">
+            <label class="toggle-item"><input type="checkbox" id="resolveIPs" checked> 🔍 Resolve IPs</label>
+            <label class="toggle-item"><input type="checkbox" id="scanPorts"> 🔌 Port Scan</label>
+        </div>
+        <div class="tools-bar">
+            <input type="text" id="ipInput" placeholder="IP → Hostname" style="background:#0f172f;border-radius:2rem;padding:0.4rem 1rem;color:#fff;flex:2">
+            <button class="tool-btn" onclick="reverseIP()"><i class="fas fa-exchange-alt"></i> Reverse</button>
+            <button class="tool-btn" onclick="copyAll()"><i class="fas fa-copy"></i> Copy</button>
+            <button class="tool-btn" onclick="exportTXT()"><i class="fas fa-file-alt"></i> TXT</button>
+        </div>
+        <div class="progress-bar" id="progressBar"><div class="progress-fill" id="progressFill"></div></div>
+        <div class="stats" id="stats" style="display:none">
+            <div class="stat-tile"><i class="fas fa-globe"></i><div class="stat-number" id="totalCount">0</div><div>Subdomains</div></div>
+            <div class="stat-tile"><i class="fas fa-check"></i><div class="stat-number" id="activeCount">0</div><div>Active</div></div>
+            <div class="stat-tile"><i class="fas fa-server"></i><div class="stat-number" id="ipCount">0</div><div>IPs</div></div>
+            <div class="stat-tile"><i class="fas fa-plug"></i><div class="stat-number" id="portCount">0</div><div>Open Ports</div></div>
+            <div class="stat-tile"><i class="fas fa-clock"></i><div class="stat-number" id="timeCount">0s</div><div>Time</div></div>
+        </div>
+    </div>
 
-    <script>
-        let currentData = [];
+    <div class="loading" id="loading"><div class="spinner"></div><p id="loadingText">Scanning sources...</p></div>
+    <div class="error" id="error"><span id="errorText"></span></div>
+    <div class="results-card" id="results"><div class="table-wrap"><table><thead><tr><th>#</th><th>Subdomain</th><th>IP</th><th>Ports</th><th>Actions</th></tr></thead><tbody id="tableBody"></tbody></table></div></div>
+    <footer>⚡ Mahboub Million · Professional OSINT Tool</footer>
+</div>
+<div class="toast" id="toast">✓ Done</div>
 
-        const COMMON_PORTS = [80, 443, 22, 21, 25, 3306, 5432, 6379, 8080, 8443, 3389, 5900];
-        const PORT_NAMES = {80:'HTTP',443:'HTTPS',22:'SSH',21:'FTP',25:'SMTP',3306:'MySQL',5432:'PostgreSQL',6379:'Redis',8080:'HTTP-Alt',8443:'HTTPS-Alt',3389:'RDP',5900:'VNC'};
-
-        // ============= MULTI-SOURCE SUBDOMAIN DISCOVERY (NO LIMIT) =============
-        
-        async function fetchFromCRT(domain) {
-            try {
-                const res = await fetch(`https://crt.sh/?q=%.${domain}&output=json`);
-                const data = await res.json();
-                const subs = new Set();
-                if (Array.isArray(data)) {
-                    data.forEach(entry => {
-                        if (entry.name_value) {
-                            entry.name_value.split('\n').forEach(name => {
-                                let clean = name.trim().toLowerCase();
-                                if (clean && clean.endsWith(domain) && clean !== domain) {
-                                    subs.add(clean);
-                                }
-                            });
-                        }
-                    });
-                }
-                return Array.from(subs);
-            } catch(e) { return []; }
-        }
-
-        async function fetchFromHackerTarget(domain) {
-            try {
-                const res = await fetch(`https://api.hackertarget.com/hostsearch/?q=${domain}`);
-                const text = await res.text();
-                if (text.includes('error')) return [];
-                return text.split('\n').map(line => line.split(',')[0]).filter(s => s && s.includes('.'));
-            } catch(e) { return []; }
-        }
-
-        async function fetchFromBufferOver(domain) {
-            try {
-                const res = await fetch(`https://dns.bufferover.run/dns?q=.${domain}`);
-                const data = await res.json();
-                const subs = new Set();
-                if (data.FDNS_A) {
-                    data.FDNS_A.forEach(record => {
-                        if (record[0]) {
-                            let clean = record[0].toLowerCase();
-                            if (clean.endsWith(domain)) subs.add(clean);
-                        }
-                    });
-                }
-                return Array.from(subs);
-            } catch(e) { return []; }
-        }
-
-        async function fetchFromAlienVault(domain) {
-            try {
-                const res = await fetch(`https://otx.alienvault.com/api/v1/indicators/domain/${domain}/passive_dns`);
-                const data = await res.json();
-                const subs = new Set();
-                if (data.passive_dns) {
-                    data.passive_dns.forEach(record => {
-                        if (record.hostname && record.hostname.endsWith(domain)) {
-                            subs.add(record.hostname.toLowerCase());
-                        }
-                    });
-                }
-                return Array.from(subs);
-            } catch(e) { return []; }
-        }
-
-        async function fetchFromDNSDumpster(domain) {
-            try {
-                const res = await fetch(`https://dnsdumpster.com/static/map/${domain}`);
-                const html = await res.text();
-                const subs = new Set();
-                const regex = new RegExp(`([a-zA-Z0-9_.-]+\.${domain.replace(/\./g, '\\.')})`, 'gi');
-                let match;
-                while ((match = regex.exec(html)) !== null) {
-                    subs.add(match[1].toLowerCase());
-                }
-                return Array.from(subs);
-            } catch(e) { return []; }
-        }
-
-        async function fetchFromCertSpotter(domain) {
-            try {
-                const res = await fetch(`https://api.certspotter.com/v1/issuances?domain=${domain}&include_subdomains=true&expand=dns_names`);
-                const data = await res.json();
-                const subs = new Set();
-                if (Array.isArray(data)) {
-                    data.forEach(entry => {
-                        if (entry.dns_names) {
-                            entry.dns_names.forEach(name => {
-                                let clean = name.toLowerCase();
-                                if (clean.endsWith(domain) && clean !== domain) {
-                                    subs.add(clean);
-                                }
-                            });
-                        }
-                    });
-                }
-                return Array.from(subs);
-            } catch(e) { return []; }
-        }
-
-        async function fetchFromRapidDNS(domain) {
-            try {
-                const res = await fetch(`https://rapiddns.io/subdomain/${domain}?full=1`);
-                const html = await res.text();
-                const subs = new Set();
-                const regex = new RegExp(`([a-zA-Z0-9_.-]+\.${domain.replace(/\./g, '\\.')})`, 'gi');
-                let match;
-                while ((match = regex.exec(html)) !== null) {
-                    subs.add(match[1].toLowerCase());
-                }
-                return Array.from(subs);
-            } catch(e) { return []; }
-        }
-
-        async function fetchFromAnubisDB(domain) {
-            try {
-                const res = await fetch(`https://jldc.me/anubis/subdomains/${domain}`);
-                const data = await res.json();
-                if (Array.isArray(data)) {
-                    return data.filter(s => s && s.endsWith(domain)).map(s => s.toLowerCase());
-                }
-                return [];
-            } catch(e) { return []; }
-        }
-
-        async function fetchAllSubdomains(domain) {
-            const sources = [
-                { name: 'crt.sh', func: fetchFromCRT },
-                { name: 'AlienVault', func: fetchFromAlienVault },
-                { name: 'BufferOver', func: fetchFromBufferOver },
-                { name: 'HackerTarget', func: fetchFromHackerTarget },
-                { name: 'CertSpotter', func: fetchFromCertSpotter },
-                { name: 'DNSDumpster', func: fetchFromDNSDumpster },
-                { name: 'RapidDNS', func: fetchFromRapidDNS },
-                { name: 'AnubisDB', func: fetchFromAnubisDB }
-            ];
-            
-            const allSubs = new Set();
-            let completed = 0;
-            
-            for (const source of sources) {
-                try {
-                    const subs = await source.func(domain);
-                    subs.forEach(s => allSubs.add(s));
-                    completed++;
-                    const percent = (completed / sources.length) * 40;
-                    document.getElementById('progressFill').style.width = `${percent}%`;
-                    document.getElementById('loadingText').innerHTML = `<i class="fas fa-database"></i> ${source.name}: found ${subs.length} subdomains...`;
-                } catch(e) { console.warn(`${source.name} failed`); }
+<script>
+    let currentData=[];
+    const PORTS=[80,443,22,21,25,3306,5432,6379,8080,8443];
+    
+    async function fetchCRT(d){try{let r=await fetch(`https://crt.sh/?q=%.${d}&output=json`);let j=await r.json();let s=new Set();if(Array.isArray(j))j.forEach(e=>{if(e.name_value)e.name_value.split('\n').forEach(n=>{let c=n.trim().toLowerCase();if(c&&c.endsWith(d)&&c!==d)s.add(c);})});return[...s];}catch(e){return[]}}
+    async function fetchHT(d){try{let r=await fetch(`https://api.hackertarget.com/hostsearch/?q=${d}`);let t=await r.text();if(t.includes('error'))return[];return t.split('\n').map(l=>l.split(',')[0]).filter(s=>s&&s.includes('.'));}catch(e){return[]}}
+    async function fetchAlien(d){try{let r=await fetch(`https://otx.alienvault.com/api/v1/indicators/domain/${d}/passive_dns`);let j=await r.json();let s=new Set();if(j.passive_dns)j.passive_dns.forEach(rec=>{if(rec.hostname&&rec.hostname.endsWith(d))s.add(rec.hostname.toLowerCase());});return[...s];}catch(e){return[]}}
+    
+    async function getAllSubs(domain){
+        let sources=[fetchCRT,fetchAlien,fetchHT];
+        let all=new Set();
+        for(let src of sources){let res=await src(domain);res.forEach(r=>all.add(r));}
+        return [...all].sort();
+    }
+    
+    async function resolveIP(host){try{let r=await fetch(`https://dns.google/resolve?name=${host}&type=A`);let d=await r.json();if(d.Answer&&d.Answer[0])return d.Answer[0].data;return'-';}catch(e){return'-'}}
+    
+    async function findSubdomains(){
+        let domain=document.getElementById('domainInput').value.trim().toLowerCase();
+        if(!domain){showError('Enter domain');return;}
+        document.getElementById('loading').classList.add('active');
+        document.getElementById('results').classList.remove('active');
+        document.getElementById('stats').style.display='none';
+        document.getElementById('progressBar').style.display='block';
+        let start=Date.now();
+        try{
+            let subs=await getAllSubs(domain);
+            if(subs.length===0){showError('No subdomains found');reset();return;}
+            subs=[...new Set(subs)];
+            document.getElementById('totalCount').innerText=subs.length;
+            let resolveFlag=document.getElementById('resolveIPs').checked;
+            let data=[];
+            for(let i=0;i<subs.length;i++){
+                let ip='-';
+                if(resolveFlag)ip=await resolveIP(subs[i]);
+                data.push({subdomain:subs[i],ip,ports:[]});
+                document.getElementById('progressFill').style.width=`${((i+1)/subs.length)*100}%`;
+                document.getElementById('ipCount').innerText=i+1;
             }
-            
-            return Array.from(allSubs).sort();
-        }
-
-        async function resolveIPFast(host) {
-            try {
-                const res = await fetch(`https://dns.google/resolve?name=${host}&type=A`);
-                const data = await res.json();
-                if (data.Answer && data.Answer[0]) return data.Answer[0].data;
-                return '-';
-            } catch(e) { return 'Error'; }
-        }
-
-        async function scanPort(host, port) {
-            return new Promise((resolve) => {
-                const timeout = setTimeout(() => resolve(false), 2000);
-                const protocol = (port === 443) ? 'https' : 'http';
-                const img = new Image();
-                img.onload = () => { clearTimeout(timeout); resolve(true); };
-                img.onerror = () => { clearTimeout(timeout); resolve(false); };
-                img.src = `${protocol}://${host}:${port}/favicon.ico?_=${Date.now()}`;
-            });
-        }
-
-        async function scanPortsOnHost(host) {
-            const openPorts = [];
-            for (const port of COMMON_PORTS) {
-                try {
-                    if (await scanPort(host, port)) openPorts.push(port);
-                } catch(e) {}
-            }
-            return openPorts;
-        }
-
-        async function processHosts(hosts) {
-            const results = [];
-            const resolveIPs = document.getElementById('resolveIPs').checked;
-            const scanPorts = document.getElementById('scanPorts').checked;
-            const total = hosts.length;
-            
-            for (let i = 0; i < hosts.length; i++) {
-                const host = hosts[i];
-                let ip = '-';
-                let ports = [];
-                
-                if (resolveIPs) ip = await resolveIPFast(host);
-                if (scanPorts && ip !== '-' && ip !== 'Error') ports = await scanPortsOnHost(host);
-                
-                results.push({ subdomain: host, ip, ports });
-                
-                const percent = 40 + ((i + 1) / total) * 60;
-                document.getElementById('progressFill').style.width = `${percent}%`;
-                document.getElementById('ipCount').innerText = i + 1;
-                
-                let totalPorts = 0;
-                results.forEach(r => totalPorts += r.ports.length);
-                document.getElementById('openPortsCount').innerText = totalPorts;
-                document.getElementById('loadingText').innerHTML = `<i class="fas fa-microchip"></i> Processing ${i+1}/${total} hosts...`;
-            }
-            return results;
-        }
-
-        async function findSubdomains() {
-            const domain = document.getElementById('domainInput').value.trim().toLowerCase();
-            if (!domain) {
-                showError('Please enter a valid domain');
-                return;
-            }
-
-            document.getElementById('loading').classList.add('active');
-            document.getElementById('results').classList.remove('active');
-            document.getElementById('stats').style.display = 'none';
-            document.getElementById('progressBar').classList.add('active');
-            document.getElementById('searchBtn').disabled = true;
-            document.getElementById('progressFill').style.width = '0%';
-            
-            const startTime = Date.now();
-            
-            try {
-                document.getElementById('loadingText').innerHTML = '<i class="fas fa-database"></i> Querying 8+ OSINT sources (NO LIMIT)...';
-                let subdomains = await fetchAllSubdomains(domain);
-                
-                if (subdomains.length === 0) {
-                    showError('No subdomains found. Try another domain.');
-                    document.getElementById('loading').classList.remove('active');
-                    document.getElementById('progressBar').classList.remove('active');
-                    document.getElementById('searchBtn').disabled = false;
-                    return;
-                }
-                
-                // Remove duplicates only - NO LIMIT ON NUMBER
-                subdomains = [...new Set(subdomains)];
-                
-                document.getElementById('totalCount').innerText = subdomains.length;
-                document.getElementById('resultCountSpan').innerHTML = ` (${subdomains.length} hosts)`;
-                document.getElementById('loadingText').innerHTML = `<i class="fas fa-microchip"></i> Processing ALL ${subdomains.length} hosts (no limit)...`;
-                
-                currentData = await processHosts(subdomains);
-                
-                const totalPorts = currentData.reduce((sum, item) => sum + item.ports.length, 0);
-                document.getElementById('openPortsCount').innerText = totalPorts;
-                document.getElementById('aliveCount').innerText = currentData.filter(d => d.ports.length > 0).length;
-                
-                if (!document.getElementById('resolveIPs').checked) document.getElementById('ipCount').innerText = 'Disabled';
-                if (!document.getElementById('scanPorts').checked) {
-                    document.getElementById('openPortsCount').innerText = 'Disabled';
-                    document.getElementById('aliveCount').innerText = 'N/A';
-                }
-                
-                const duration = ((Date.now() - startTime) / 1000).toFixed(1);
-                document.getElementById('timeCount').innerText = duration + 's';
-                document.getElementById('stats').style.display = 'grid';
-                
-                displayResults(currentData);
-                showToast(`✅ Found ${subdomains.length} subdomains in ${duration}s!`);
-                
-            } catch(err) {
-                showError('Connection error: ' + err.message);
-            } finally {
-                document.getElementById('loading').classList.remove('active');
-                document.getElementById('progressBar').classList.remove('active');
-                document.getElementById('searchBtn').disabled = false;
-            }
-        }
-
-        function displayResults(data) {
-            const tbody = document.getElementById('tableBody');
-            tbody.innerHTML = '';
-            
-            data.forEach((item, idx) => {
-                const row = tbody.insertRow();
-                row.insertCell(0).innerText = idx + 1;
-                row.insertCell(1).innerHTML = `<strong style="color:#00d4ff;">${item.subdomain}</strong>`;
-                row.insertCell(2).innerText = item.ip;
-                
-                const portsCell = row.insertCell(3);
-                if (item.ports.length === 0) {
-                    portsCell.innerHTML = '<span style="color:#666;">—</span>';
-                } else {
-                    portsCell.innerHTML = item.ports.map(p => 
-                        `<span class="open-port" onclick="copyToClipboard('${p}')" title="${PORT_NAMES[p] || 'Unknown'}">${p}</span>`
-                    ).join('');
-                }
-                
-                row.insertCell(4).innerHTML = `
-                    <div class="action-icons">
-                        <i class="fas fa-copy" title="Copy hostname" onclick="copyToClipboard('${item.subdomain}')"></i>
-                        <i class="fas fa-chart-line" title="Copy IP" onclick="copyToClipboard('${item.ip}')"></i>
-                        <i class="fas fa-external-link-alt" title="Open in browser" onclick="window.open('https://${item.subdomain}', '_blank')"></i>
-                    </div>
-                `;
-            });
-            
-            document.getElementById('results').classList.add('active');
-        }
-
-        function copyAllSubdomains() {
-            if (currentData.length === 0) return;
-            const hosts = currentData.map(item => item.subdomain).join('\n');
-            copyToClipboard(hosts);
-            showToast(`${currentData.length} hostnames copied!`);
-        }
-
-        function exportTXT() {
-            if (currentData.length === 0) return;
-            let content = `# Subdomain Scan Results - Mahboub Million\n`;
-            content += `# Date: ${new Date().toLocaleString()}\n`;
-            content += `# Total Subdomains: ${currentData.length}\n\n`;
-            currentData.forEach((item, i) => {
-                content += `${i+1}. ${item.subdomain} | ${item.ip} | Ports: ${item.ports.length ? item.ports.join(',') : 'none'}\n`;
-            });
-            downloadFile(content, `subdomains_${Date.now()}.txt`, 'text/plain');
-        }
-
-        function exportCSV() {
-            if (currentData.length === 0) return;
-            let csv = "Subdomain,IP Address,Open Ports\n";
-            currentData.forEach(item => {
-                csv += `"${item.subdomain}","${item.ip}","${item.ports.join(';')}"\n`;
-            });
-            downloadFile(csv, `subdomains_${Date.now()}.csv`, 'text/csv');
-        }
-
-        function downloadFile(content, filename, mimeType) {
-            const blob = new Blob([content], { type: mimeType });
-            const url = URL.createObjectURL(blob);
-            const a = document.createElement('a');
-            a.href = url;
-            a.download = filename;
-            document.body.appendChild(a);
-            a.click();
-            document.body.removeChild(a);
-            URL.revokeObjectURL(url);
-            showToast(`Downloaded: ${filename}`);
-        }
-
-        function copyToClipboard(text) {
-            navigator.clipboard.writeText(text);
-            showToast(`Copied: ${text.length > 50 ? text.substring(0, 50) + '...' : text}`);
-        }
-
-        function showToast(msg) {
-            const toast = document.getElementById('toast');
-            toast.innerText = msg;
-            toast.classList.add('show');
-            setTimeout(() => toast.classList.remove('show'), 2000);
-        }
-
-        function showError(msg) {
-            const errorDiv = document.getElementById('error');
-            document.getElementById('errorText').innerHTML = `<i class="fas fa-exclamation-circle"></i> ${msg}`;
-            errorDiv.classList.add('active');
-            setTimeout(() => errorDiv.classList.remove('active'), 4000);
-        }
-
-        document.getElementById('domainInput').addEventListener('keypress', (e) => {
-            if (e.key === 'Enter') findSubdomains();
+            currentData=data;
+            document.getElementById('timeCount').innerText=((Date.now()-start)/1000).toFixed(1)+'s';
+            document.getElementById('stats').style.display='grid';
+            renderTable(data);
+            showToast(`Found ${subs.length} subdomains`);
+        }catch(e){showError('Error: '+e.message);}
+        finally{reset();}
+        function reset(){document.getElementById('loading').classList.remove('active');document.getElementById('progressBar').style.display='none';}
+    }
+    
+    function renderTable(data){
+        let tbody=document.getElementById('tableBody');
+        tbody.innerHTML='';
+        data.forEach((item,i)=>{
+            let row=tbody.insertRow();
+            row.insertCell(0).innerText=i+1;
+            row.insertCell(1).innerHTML=`<span class="hostname">${item.subdomain}</span>`;
+            row.insertCell(2).innerText=item.ip;
+            row.insertCell(3).innerHTML='<span style="color:#666">—</span>';
+            row.insertCell(4).innerHTML=`<div class="action-icons"><i class="fas fa-copy" onclick="copyToClipboard('${item.subdomain}')"></i><i class="fas fa-external-link-alt" onclick="window.open('https://${item.subdomain}')"></i></div>`;
         });
-    </script>
+        document.getElementById('results').classList.add('active');
+    }
+    
+    async function reverseIP(){let ip=document.getElementById('ipInput').value.trim();if(!ip){showError('Enter IP');return;}try{let r=await fetch(`https://dns.google/resolve?name=${ip}&type=PTR`);let d=await r.json();if(d.Answer&&d.Answer[0])showToast(`Host: ${d.Answer[0].data}`);else showToast('No PTR record');}catch(e){showError('Reverse failed');}}
+    function copyAll(){if(!currentData.length)return;let t=currentData.map(x=>x.subdomain).join('\n');copyToClipboard(t);showToast(`${currentData.length} hosts copied`);}
+    function exportTXT(){if(!currentData.length)return;let txt=`# SubfinderX\n# ${new Date().toLocaleString()}\n\n`;currentData.forEach(x=>txt+=`${x.subdomain} | ${x.ip}\n`);download(txt,`subdomains_${Date.now()}.txt`);}
+    function download(content,name){let a=document.createElement('a');let blob=new Blob([content],{type:'text/plain'});a.href=URL.createObjectURL(blob);a.download=name;a.click();URL.revokeObjectURL(a.href);}
+    function copyToClipboard(t){navigator.clipboard.writeText(t);showToast(`Copied: ${t.substring(0,40)}`);}
+    function showToast(msg){let t=document.getElementById('toast');t.innerText=msg;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2000);}
+    function showError(msg){let e=document.getElementById('error');document.getElementById('errorText').innerHTML=msg;e.classList.add('active');setTimeout(()=>e.classList.remove('active'),3000);}
+    
+    setTimeout(()=>document.getElementById('splash').classList.add('hide'),1500);
+    document.getElementById('domainInput').addEventListener('keypress',e=>{if(e.key==='Enter')findSubdomains();});
+</script>
 </body>
-                                                   </html>
+</html>
